@@ -2,7 +2,7 @@
 
 section .data
     ;plays db 51,50,49,48,55,54,53,52,57,56
-    plays db 32,32,32,0,32,32,32,32,32,32
+    plays times 9 dw 32
 
 section .text
     global CMAIN
@@ -12,15 +12,19 @@ CMAIN:
     enter 0,0
     pusha
 
-    mov     ecx,9
+    mov     ecx,0
+    xor     eax,eax
 
 Game_loop:
     call    read_char
-    mov     [plays + ecx],al    
+    mov     word [plays + ecx*2],ax
     call    read_char
     call    print_board
 
-    loop Game_loop
+    mov     ebx,ecx
+    inc     ecx
+    sub     ebx,8
+    jl      Game_loop
 
     popa
     leave
@@ -31,15 +35,25 @@ print_board:
     enter   0,0
     pusha
 
-    push    dword [plays]
-    push    dword [plays + 4]
-    push    word  [plays + 8]
+    mov     ecx,0
+push_plays:
+    push    word [plays + ecx*2]
+
+    mov     ebx,ecx
+    inc     ecx
+    sub     ebx,8
+    jl push_plays
 
     call    _print_board
 
-    pop     eax
-    pop     eax
+    mov     ecx,0
+pop_plays:
     pop     ax
+
+    mov     ebx,ecx
+    inc     ecx
+    sub     ebx,8
+    jl pop_plays
 
     popa
     leave

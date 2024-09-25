@@ -1,7 +1,7 @@
 %include "./compile/asm_io.inc"
 
 section .data
-    welcome db  "Welcome to the fastest Tic-Tac-Toe.",10,10,0
+    welcome db  "Welcome to the fastest Tic-Tac-Toe.",10,0
     HBoard db   10," --- --- --- ",10,0
     middleSeparator db   " | ",0
     separator db   "| ",0
@@ -17,7 +17,7 @@ _print_board:
     call    print_string
 
     mov     ecx,3
-    mov     ebx,16
+    mov     ebx,12
 for1:
     mov     eax,HBoard
     call    print_string
@@ -27,7 +27,7 @@ for1:
     mov     ecx,3
 for2:
     xor     eax,eax
-    mov     al,[ebp + ebx]
+    mov     ax,[ebp + ebx*2]
     dec     ebx
     call    print_char
     mov     eax,middleSeparator
