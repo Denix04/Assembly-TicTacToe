@@ -8,7 +8,7 @@ section .data
 section .text
     global CMAIN
     extern _print_board             ;board.asm
-    extern get_position,who_play    ;aux.asm
+    extern _get_position,who_play    ;aux.asm
 
 CMAIN:
     enter 0,0
@@ -66,5 +66,28 @@ pop_plays:
     jl pop_plays
 
     popa
+    leave
+    ret
+
+; Function
+
+get_position:
+    enter   0,0
+    push    ecx
+
+    cmp     ecx,0
+    je  firs_play
+
+ask_again:
+    call    _get_position
+    cmp     word [plays + eax*2],32
+    jne ask_again
+    jmp end
+
+firs_play:
+    call    _get_position
+
+end:
+    pop     ecx
     leave
     ret

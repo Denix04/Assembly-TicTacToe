@@ -6,7 +6,7 @@ section .data
     X db 88
 
 section .text
-    global get_position
+    global _get_position
     global who_play
 
 who_play:
@@ -26,7 +26,7 @@ end:
     leave
     ret
 
-get_position:
+_get_position:
     enter   2,0
     push    ebx
     push    ecx
