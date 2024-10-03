@@ -42,16 +42,21 @@ get_again:
     call    read_char
     mov     [ebp-2],ax
     call    read_int
+
+    ; for "\n"
     push    eax
     call    read_char
     pop     eax
 
+    ; if char > 97
     mov     bx,99
     sub     bx,[ebp-2]
-    jl      get_again
+    jl  get_again
 
     mov     cx,2
     sub     cx,bx
+    ; if char < 97
+    jl  get_again
     mov     edx,3
     mul     edx
     add     eax,ecx

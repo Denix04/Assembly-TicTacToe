@@ -1,7 +1,6 @@
 %include "./compile/asm_io.inc"
 
 section .data
-    ;plays db 51,50,49,48,55,54,53,52,57,56
     welcome db  "Welcome to the fastest Tic-Tac-Toe.",10,0
     plays times 9 dw 32
 
@@ -16,6 +15,7 @@ CMAIN:
 
     mov     eax,welcome
     call    print_string
+    call    print_board
 
     mov     ecx,0
     xor     edx,edx ; for turn
@@ -31,7 +31,7 @@ Game_loop:
     inc     ecx
     inc     edx
     sub     ebx,8
-    jl      Game_loop
+    jl  Game_loop
 
     popa
     leave
