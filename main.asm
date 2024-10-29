@@ -7,7 +7,8 @@ section .data
 section .text
     global CMAIN
     extern _print_board             ;board.asm
-    extern _get_position,who_play    ;aux.asm
+    extern _win_play                ;game.asm
+    extern _get_position,who_play   ;aux.asm
 
 CMAIN:
     enter 0,0
@@ -46,24 +47,24 @@ print_board:
     pusha
 
     mov     ecx,0
-push_plays:
+push_plays1:
     push    word [plays + ecx*2]
 
     mov     ebx,ecx
     inc     ecx
     sub     ebx,8
-    jl push_plays
+    jl push_plays1
 
     call    _print_board
 
     mov     ecx,0
-pop_plays:
+pop_plays1:
     pop     ax
 
     mov     ebx,ecx
     inc     ecx
     sub     ebx,8
-    jl pop_plays
+    jl pop_plays1
 
     popa
     leave
@@ -89,5 +90,35 @@ firs_play:
 
 end:
     pop     ecx
+    leave
+    ret
+
+; Function
+
+win_play:
+    enter   0,0
+    pusha
+
+    mov     ecx,0
+push_plays:
+    push    word [plays + ecx*2]
+
+    mov     ebx,ecx
+    inc     ecx
+    sub     ebx,8
+    jl push_plays
+
+    call    _win_play
+
+    mov     ecx,0
+pop_plays:
+    pop     ax
+
+    mov     ebx,ecx
+    inc     ecx
+    sub     ebx,8
+    jl pop_plays
+
+    popa
     leave
     ret
